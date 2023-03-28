@@ -23,8 +23,6 @@ import java.util.ArrayList;
  */
 public class DashboardFragment extends Fragment {
 
-    private AdapterExercises.OnExercisesClickListener onExercisesClickListener;
-
     RecyclerView recyclerExercise;
     ArrayList<RegularExercises> regularList;
 
@@ -56,10 +54,13 @@ public class DashboardFragment extends Fragment {
 
         recyclerExercise.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        onExercisesClickListener = new AdapterExercises.OnExercisesClickListener() {
+        // Do something when a card is clicked
+        //Comentario prueba
+        AdapterExercises.OnExercisesClickListener onExercisesClickListener = new AdapterExercises.OnExercisesClickListener() {
             @Override
             public void onExercisesClick(int position) {
                 // Do something when a card is clicked
+                //Comentario prueba
             }
         };
 
