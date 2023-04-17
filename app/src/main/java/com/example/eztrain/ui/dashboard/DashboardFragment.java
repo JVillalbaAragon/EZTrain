@@ -3,6 +3,7 @@ package com.example.eztrain.ui.dashboard;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,9 +49,9 @@ public class DashboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        regularList=new ArrayList<>();
+        regularList = new ArrayList<>();
 
-        recyclerExercise=vista.findViewById(R.id.exerciseList);
+        recyclerExercise = vista.findViewById(R.id.exerciseList);
 
         recyclerExercise.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -66,12 +67,17 @@ public class DashboardFragment extends Fragment {
 
         AdapterExercises adapter = new AdapterExercises(regularList, onExercisesClickListener);
         recyclerExercise.setAdapter(adapter);
+        recyclerExercise.setLayoutManager(new GridLayoutManager(requireContext(), 2));
+
 
         llenarLista();
         return vista;
     }
-    private void llenarLista(){
-        regularList.add(new RegularExercises("Pistol Squat", R.drawable.ic_launcher_foreground));
+
+    private void llenarLista() {
+        regularList.add(new RegularExercises("Push up", R.drawable.ic_launcher_foreground));
+        regularList.add(new RegularExercises("Planche", R.drawable.ic_launcher_foreground));
+        regularList.add(new RegularExercises("Rows", R.drawable.ic_launcher_foreground));
 
     }
 }
