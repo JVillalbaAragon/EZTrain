@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.eztrain.db.DBHelper;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class AuthActivity extends AppCompatActivity {
-
+    private DBHelper dbHelper;
     private Button loginButton;
     private GoogleSignInClient client;
 
@@ -33,6 +34,11 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        //Inicializadores (Si no existen crean los elementos en la base de datos)
+        dbHelper = new DBHelper(getApplicationContext());
+        DataInitializer dataInitializer = new DataInitializer(getApplicationContext());
+        dataInitializer.initializeData(); // Este método crea los ejercicios si no existen en la BD.
+
         loginButton = findViewById(R.id.ButtonAuth);
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardBackgroundColor="#1f1f2e"
         app:cardCornerRadius="20dp"
-        app:cardPreventCornerOverlap="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        app:cardPreventCornerOverlap="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,8 +26,7 @@
                 android:layout_width="261dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@drawable/ic_launcher_foreground"
-                 />
+                android:src="@drawable/ic_launcher_foreground" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -38,18 +37,12 @@
                 <TextView
                     android:id="@+id/fieldNombreProgresion"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:text="Pistol Squat"
                     android:textSize="24sp" />
 
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="260dp"
-                    android:layout_height="match_parent" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </LinearLayout>

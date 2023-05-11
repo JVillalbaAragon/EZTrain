@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".InfoEjercicio">
+
+
+  <LinearLayout
+      android:id="@+id/linearLayout2"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="62dp"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toTopOf="@+id/youtube_player_circuito"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/imgInfo"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_launcher_background" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="36dp">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingLeft="10dp"
+          android:text="Nombre: "
+          android:textSize="20sp" />
+
+      <TextView
+          android:id="@+id/infoNombre"
+          android:layout_width="322dp"
+          android:layout_height="wrap_content"
+          android:paddingLeft="15dp"
+          android:text="asd"
+          android:textSize="20sp" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:paddingLeft="10dp">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="Descripción:"
+          android:paddingTop="15dp"
+          android:textSize="20sp" />
+
+      <TextView
+          android:id="@+id/infoDescripción"
+          android:layout_width="285dp"
+          android:layout_height="wrap_content"
+          android:paddingTop="15dp"
+          android:paddingLeft="15dp"
+          android:scrollbars="vertical"
+          android:text="asd"
+          android:textSize="20sp"
+
+          />
+    </TableRow>
+
+  </LinearLayout>
+
+  <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+      android:id="@+id/youtube_player_view"
+      android:layout_width="403dp"
+      android:layout_height="0dp"
+
+      android:layout_marginTop="48dp"
+      android:layout_marginBottom="32dp"
+      app:autoPlay="false"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+  <TextView
+      android:id="@+id/textView11"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Ejecución:"
+      android:textSize="24sp"
+      app:layout_constraintBottom_toTopOf="@+id/youtube_player_view"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.013"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+      app:layout_constraintVertical_bias="0.628" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
