@@ -43,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_ID_PROGRESION = "idProgresion";
     public static final String COLUMN_NOMBRE_PROGRESION = "nombreProgresion";
     public static final String COLUMN_EJERCICIO_AVANZADO = "idEjercicioAvanzado";
+    public static final String COLUMN_IMG_PROGRESION = "imgProgresion";
     public static final String COLUMN_COMPLETADO = "completado";
 
 
@@ -93,6 +94,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + COLUMN_NOMBRE_PROGRESION + " TEXT, "
                 + COLUMN_COMPLETADO + " INTEGER,"
                 + COLUMN_EJERCICIO_AVANZADO + " TEXT,"
+                + COLUMN_IMG_PROGRESION + " INTEGER DEFAULT " + R.drawable.ic_intensity_intermediate + ","
                 + " FOREIGN KEY (" + COLUMN_EJERCICIO_AVANZADO + ") REFERENCES " + TABLE_EJERCICIOS_AVANZADOS + "(" + COLUMN_NOMBRE_EJERCICIO_AVANZADO + ")"
                 + ")";
         db.execSQL(CREATE_TABLE_PROGRESIONES);
@@ -120,6 +122,41 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EJERCICIOS_CONVENCIONALES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_EJERCICIOS_AVANZADOS);
         onCreate(db);
+    }
+
+    //APARTADO PARA EJERCICIOS AVANZADOS/PROGRESIONES
+    public int obtenerCantidadProgresionesDB(String ejercicioAvanzado) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_PROGRESIONES +
+                " WHERE " + COLUMN_EJERCICIO_AVANZADO + " = '" + ejercicioAvanzado + "'";
+        Cursor cursor = db.rawQuery(query, null);
+
+        int cantidadProgresiones = 0;
+        if (cursor.moveToFirst()) {
+            cantidadProgresiones = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+        return cantidadProgresiones;
+    }
+
+
+    public int obtenerCantidadProgresionesCompletadasDB(String ejercicioAvanzado) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_PROGRESIONES +
+                " WHERE " + COLUMN_EJERCICIO_AVANZADO + " = '" + ejercicioAvanzado + "'" +
+                " AND " + COLUMN_COMPLETADO + " = 1";
+        Cursor cursor = db.rawQuery(query, null);
+
+        int cantidadProgresionesCompletadas = 0;
+        if (cursor.moveToFirst()) {
+            cantidadProgresionesCompletadas = cursor.getInt(0);
+        }
+
+        cursor.close();
+        db.close();
+        return cantidadProgresionesCompletadas;
     }
 
     //APARTADO PARA EJERCICIOS CONVENCIONALES
@@ -367,6 +404,17 @@ public class DBHelper extends SQLiteOpenHelper {
         values.put(COLUMN_COMPLETADO, progresion.isCompletado() ? 1 : 0);
         values.put(COLUMN_EJERCICIO_AVANZADO, progresion.getEjercicioAvanzado());
         db.update(TABLE_PROGRESIONES, values, COLUMN_NOMBRE_PROGRESION + " = ?", new String[] { progresion.getNombre() });
+        db.close();
+    }
+    //ESTABLECER PROGRESO EJERCICIO AVANZADO
+    public void actualizarProgresoEjercicioAvanzado(String nombreEjercicioAvanzado, double progreso) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_PROGRESO_AVANZADO, progreso);
+
+        db.update(TABLE_EJERCICIOS_AVANZADOS, values, COLUMN_NOMBRE_EJERCICIO_AVANZADO + " = ?", new String[]{nombreEjercicioAvanzado});
+
         db.close();
     }
 

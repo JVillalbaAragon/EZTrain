@@ -5,32 +5,19 @@
     android:id="@+id/LayoutCircuito"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Circuito">
-
-    <ProgressBar
-        android:id="@+id/progressBarSecs"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="406dp"
-        android:layout_height="223dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtNomEx"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/youtube_player_circuito" />
+    tools:context=".ui.progresiones.Circuito">
 
     <TextView
         android:id="@+id/textMostrar"
-        android:layout_width="110dp"
-        android:layout_height="70dp"
+        android:layout_width="245dp"
+        android:layout_height="77dp"
         android:gravity="center"
         android:text="Reps/segundos"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBarSecs"
-        app:layout_constraintEnd_toEndOf="@+id/progressBarSecs"
-        app:layout_constraintStart_toStartOf="@+id/progressBarSecs"
-        app:layout_constraintTop_toTopOf="@+id/progressBarSecs"
-        app:layout_constraintVertical_bias="0.473" />
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/progressBarSecs"
+        app:layout_constraintEnd_toEndOf="@+id/textRepeticiones"
+        app:layout_constraintStart_toStartOf="@+id/textRepeticiones"
+        app:layout_constraintTop_toBottomOf="@+id/youtube_player_circuito" />
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
         android:id="@+id/youtube_player_circuito"
@@ -107,8 +94,24 @@
         android:gravity="center"
         android:text="textRepes"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="@+id/progressBarSecs"
-        app:layout_constraintEnd_toEndOf="@+id/progressBarSecs"
-        app:layout_constraintStart_toStartOf="@+id/progressBarSecs"
-        app:layout_constraintTop_toTopOf="@+id/progressBarSecs" />
+        app:layout_constraintBottom_toBottomOf="@+id/textMostrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/youtube_player_circuito"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ProgressBar
+        android:id="@+id/progressBarSecs"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="318dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtNomEx"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/youtube_player_circuito"
+        app:layout_constraintVertical_bias="0.786" />
 </androidx.constraintlayout.widget.ConstraintLayout>

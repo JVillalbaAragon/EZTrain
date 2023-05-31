@@ -1,7 +1,5 @@
 package com.example.eztrain.ui.progresiones;
 
-import static com.example.eztrain.db.DBHelper.COLUMN_PROGRESO_AVANZADO;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,13 +11,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.eztrain.Circuito;
 import com.example.eztrain.R;
-import com.example.eztrain.adapters.AdapterHome;
 import com.example.eztrain.adapters.AdapterProgresion;
 import com.example.eztrain.db.DBHelper;
-import com.example.eztrain.models.EjercicioAvanzado;
-import com.example.eztrain.models.EjercicioProgresion;
 import com.example.eztrain.models.Progresion;
 
 import java.util.ArrayList;
@@ -53,7 +47,6 @@ public class Progresiones extends AppCompatActivity {
             }
         };
 
-
             AdapterProgresion adapter = new AdapterProgresion(listaProgresion, onProgresionClickListener);
             recyclerProgresion.setAdapter(adapter);
             recyclerProgresion.setLayoutManager(new LinearLayoutManager(this));
@@ -70,7 +63,7 @@ public class Progresiones extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Especificar las columnas que deseamos obtener de la tabla "Progresiones"
-        String[] columnas = {DBHelper.COLUMN_ID_PROGRESION, DBHelper.COLUMN_NOMBRE_PROGRESION, DBHelper.COLUMN_EJERCICIO_AVANZADO ,DBHelper.COLUMN_COMPLETADO};
+        String[] columnas = {DBHelper.COLUMN_ID_PROGRESION, DBHelper.COLUMN_NOMBRE_PROGRESION, DBHelper.COLUMN_EJERCICIO_AVANZADO ,DBHelper.COLUMN_IMG_PROGRESION, DBHelper.COLUMN_COMPLETADO};
 
         // Especificar la cláusula WHERE para filtrar las progresiones según el nombre del ejercicio
         String whereClause = DBHelper.COLUMN_EJERCICIO_AVANZADO + " = ?";
@@ -85,16 +78,18 @@ public class Progresiones extends AppCompatActivity {
             @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_ID_PROGRESION));
             @SuppressLint("Range") String nombre = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_NOMBRE_PROGRESION));
             @SuppressLint("Range") String ejercicio = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_EJERCICIO_AVANZADO));
+            @SuppressLint("Range") int imagen = cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_IMG_PROGRESION));
             @SuppressLint("Range") int completado = cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_COMPLETADO));
             boolean completo;
             if (completado==1){
                 completo=true;
             }else completo=false;
 
-            Progresion progresion = new Progresion(nombre, completo, ejercicio);
+            Progresion progresion = new Progresion(nombre, completo, ejercicio, imagen);
             progresion.setId(id);
             progresion.setNombre(nombre);
             progresion.setCompletado(completo);
+            progresion.setImgProgresion(imagen);
             progresiones.add(progresion);
         }
 
@@ -103,7 +98,7 @@ public class Progresiones extends AppCompatActivity {
         db.close();
 
         for (Progresion progresion : progresiones) {
-            Log.d("Progresion", "ID: " + progresion.getId() + ", Nombre: " + progresion.getNombre() + ", Completado: " + progresion.isCompletado());
+            Log.d("Progresion", "ID: " + progresion.getId() + ", Nombre: " + progresion.getNombre() + ", Completado: " + progresion.isCompletado() + "IMAGEN: " +progresion.getImgProgresion());
         }
 
         return progresiones;

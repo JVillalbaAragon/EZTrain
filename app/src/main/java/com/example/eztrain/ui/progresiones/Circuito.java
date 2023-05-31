@@ -1,14 +1,22 @@
-package com.example.eztrain;
+package com.example.eztrain.ui.progresiones;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.eztrain.MainActivity;
+import com.example.eztrain.R;
 import com.example.eztrain.db.DBHelper;
 import com.example.eztrain.models.EjercicioProgresion;
 import com.example.eztrain.models.Progresion;
@@ -23,11 +31,11 @@ public class Circuito extends AppCompatActivity {
 
     private Progresion progresion;
     private List<EjercicioProgresion> ejercicios;
-
     private int ejercicioActual = 0;
-
     private YouTubePlayerView youTubePlayerView;
     private String youtubeID;
+    //Booleano para controlar el cronometro
+    private boolean cronometroEnProgreso = false;
 
 
     @Override
@@ -47,7 +55,6 @@ public class Circuito extends AppCompatActivity {
         DBHelper db = new DBHelper(this);
         ejercicios = db.obtenerEjerciciosProgresionDesdeBD(progresion.getNombre());
 
-
         // Mostrar el primer ejercicio en la pantalla
         mostrarEjercicioActual();
 
@@ -56,18 +63,24 @@ public class Circuito extends AppCompatActivity {
         siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Pasar al siguiente ejercicio
-                ejercicioActual++;
-                if (ejercicioActual < ejercicios.size()) {
-                    mostrarEjercicioActual();
+                if (cronometroEnProgreso) {
+                    // El cronómetro está en progreso, no permitir continuar
+                    Toast.makeText(Circuito.this, "¡No seas tramposo! El ejercicio no ha terminado", Toast.LENGTH_SHORT).show();
                 } else {
-                    terminarProgresion();
+                    // Pasar al siguiente ejercicio
+                    ejercicioActual++;
+                    if (ejercicioActual < ejercicios.size()) {
+                        mostrarEjercicioActual();
+                    } else {
+                        mostrarDialogoConfirmacion();
+                    }
                 }
             }
         });
     }
 
     private void mostrarEjercicioActual() {
+        Log.d("test", "CIRCUITO FAIL " +ejercicios.get(ejercicioActual));
         EjercicioProgresion ejercicio = ejercicios.get(ejercicioActual);
         TextView nombreEjercicioTv = findViewById(R.id.txtNomEx);
         TextView numMutable = findViewById(R.id.textMostrar);
@@ -82,10 +95,8 @@ public class Circuito extends AppCompatActivity {
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener(){
                 @Override
                 public void onReady(@NonNull YouTubePlayer youTubePlayer) {
-                    youTubePlayer.cueVideo(youtubeID, 0);
-                }
+                    youTubePlayer.cueVideo(youtubeID, 0);}
             });
-
 
         // Si el ejercicio es por repeticiones
         if (ejercicio.getTipo() == 1) {
@@ -105,8 +116,9 @@ public class Circuito extends AppCompatActivity {
             pistas.setText("¡No te detengas hasta que acabe el tiempo!");
 
             // Iniciar cronómetro
-            new CountDownTimer(ejercicio.getSegundos() * 1000, 1000) {
+            cronometroEnProgreso = true;
 
+            new CountDownTimer(ejercicio.getSegundos() * 1000, 1000) {
                 public void onTick(long millisUntilFinished) {
                     int secondsLeft = (int) millisUntilFinished / 1000;
                     numMutable.setText(String.valueOf(secondsLeft));
@@ -118,6 +130,8 @@ public class Circuito extends AppCompatActivity {
                 public void onFinish() {
                     numMutable.setText("¡Conseguido!");
                     progressBarCircuito.setProgress(0);
+                    cronometroEnProgreso = false;
+
                 }
             }.start();
         }
@@ -127,8 +141,15 @@ public class Circuito extends AppCompatActivity {
         // Actualizar la progresión en la base de datos
         DBHelper db = new DBHelper(this);
         db.actualizarProgresionEnBD(progresion);
-        finish();
-    }
+        // Actualizar progreso ejercicio avanzado
+        double progresoEjercicio = calcularPorcentajeProgreso();
+        // Obtener el nombre del ejercicio avanzado
+        Intent intent = getIntent();
+        String nombreEjercicioAvanzado = intent.getStringExtra("ejercicioAvanzado");
+        db.actualizarProgresoEjercicioAvanzado(nombreEjercicioAvanzado, progresoEjercicio);
+
+        //Refrescar recyclerView:
+        finish();}
     private String sacarID(String url) {
         String videoId = null;
         // Patrón para extraer la ID del video
@@ -140,10 +161,60 @@ public class Circuito extends AppCompatActivity {
         }
         return videoId;
     }
-
     private String getURL(String nom){
         DBHelper db = new DBHelper(this);
         return db.obtenerUrlVideoEjercicio(nom);
 
+    }
+    private double calcularPorcentajeProgreso() {
+        DBHelper db = new DBHelper(this);
+
+        // Obtener el nombre del ejercicio avanzado
+        Intent intent = getIntent();
+        String nombreEjercicioAvanzado = intent.getStringExtra("ejercicioAvanzado");
+        // Obtener la cantidad total de progresiones del ejercicio avanzado por su nombre
+        int cantidadTotalProgresiones = db.obtenerCantidadProgresionesDB(nombreEjercicioAvanzado);
+        // Obtener la cantidad de progresiones completadas en la base de datos relacionadas con el ejercicio avanzado
+        int cantidadProgresionesCompletadas = db.obtenerCantidadProgresionesCompletadasDB(nombreEjercicioAvanzado) + 1;
+        // Calcular el porcentaje de progreso
+        double porcentajeProgreso = (double) cantidadProgresionesCompletadas / cantidadTotalProgresiones * 100;
+        return porcentajeProgreso;
+    }
+    private void mostrarDialogoConfirmacion() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Confirmación");
+        builder.setMessage("¿Has podido terminar el circuito satisfactoriamente?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Actualizar el campo "completado" a true en la base de datos
+                progresion.setCompletado(true);
+                DBHelper db = new DBHelper(Circuito.this);
+                double progresoEjercicio = calcularPorcentajeProgreso();
+                db.actualizarProgresionEnBD(progresion);
+                Intent intent = getIntent();
+                String nombreEjercicioAvanzado = intent.getStringExtra("ejercicioAvanzado");
+                db.actualizarProgresoEjercicioAvanzado(nombreEjercicioAvanzado, progresoEjercicio);
+
+                // Redirigir a MainActivity
+                Intent refreshMain = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(refreshMain);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Actualizar el campo "completado" a false en la base de datos
+                progresion.setCompletado(false);
+                DBHelper db = new DBHelper(Circuito.this);
+                db.actualizarProgresionEnBD(progresion);
+
+                // Redirigir a MainActivity
+                Intent refreshMain = new Intent(Circuito.this, MainActivity.class);
+                startActivity(refreshMain);
+            }
+        });
+        builder.setCancelable(false);
+        builder.show();
     }
 }

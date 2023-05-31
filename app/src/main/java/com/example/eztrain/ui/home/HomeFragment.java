@@ -18,10 +18,12 @@ import com.example.eztrain.R;
 import com.example.eztrain.adapters.AdapterHome;
 import com.example.eztrain.db.DBHelper;
 import com.example.eztrain.models.EjercicioAvanzado;
+import com.example.eztrain.models.Progresion;
 import com.example.eztrain.ui.progresiones.Progresiones;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -30,7 +32,6 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,8 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("progreso", ejercicioClickeado.getProgreso());
                 intent.putExtra("url", ejercicioClickeado.getUrl());
                 startActivity(intent);
-
             }
         };
-
-
         AdapterHome adapter = new AdapterHome(exerciseList, onExercisesClickListener);
         recyclerHome.setAdapter(adapter);
         recyclerHome.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -96,7 +94,6 @@ public class HomeFragment extends Fragment {
             @SuppressLint("Range") String url = cursor.getString(cursor.getColumnIndex(DBHelper.COLUMN_URL_VIDEO_AVANZADO));
             @SuppressLint("Range") int imagen = cursor.getInt(cursor.getColumnIndex(DBHelper.COLUMN_IMG_EJERCICIO_AVANZADO));
 
-
             EjercicioAvanzado ejercicioAvanzado = new EjercicioAvanzado(id ,nombre, descripcion , progreso, imagen, url);
             ejercicioAvanzado.setId(id);
             ejercicioAvanzado.setNombre(nombre);
@@ -116,5 +113,7 @@ public class HomeFragment extends Fragment {
 
         return ejerciciosAvanzados;
     }
+
+
 
 }

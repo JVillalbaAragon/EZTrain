@@ -10,10 +10,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exerciseList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingVertical="@dimen/exercise_vertical_spacing"
+        android:layout_height="642dp"
         android:clipToPadding="false"
         android:padding="16dp"
+        android:paddingVertical="@dimen/exercise_vertical_spacing"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2" />
 

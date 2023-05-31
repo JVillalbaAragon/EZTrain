@@ -5,6 +5,7 @@ public class Progresion {
     private String nombre;
     private boolean completado;
     private String ejercicioAvanzado;
+    private int imgProgresion;
 
 
     public Progresion() {}
@@ -13,6 +14,21 @@ public class Progresion {
         this.nombre = nombre;
         this.completado = completado;
         this.ejercicioAvanzado = ejercicioAvanzado;
+    }
+
+    public Progresion(String nombre, boolean completado, String ejercicioAvanzado, int imagen) {
+        this.nombre = nombre;
+        this.completado = completado;
+        this.ejercicioAvanzado = ejercicioAvanzado;
+        this.imgProgresion = imagen;
+    }
+
+    public int getImgProgresion() {
+        return imgProgresion;
+    }
+
+    public void setImgProgresion(int imgProgresion) {
+        this.imgProgresion = imgProgresion;
     }
 
     public int getId() {

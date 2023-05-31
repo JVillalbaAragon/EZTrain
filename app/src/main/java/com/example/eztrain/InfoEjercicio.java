@@ -40,7 +40,6 @@ public class InfoEjercicio extends AppCompatActivity {
         // Obtener las referencias de los TextViews e ImageView
         infoNombre = findViewById(R.id.infoNombre);
         infoDescripcion = findViewById(R.id.infoDescripción);
-        infoImg = findViewById(R.id.imgInfo);
         //VIDEO
         youTubePlayerView = findViewById(R.id.youtube_player_view);
         youTubePlayerView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
@@ -53,7 +52,7 @@ public class InfoEjercicio extends AppCompatActivity {
         infoNombre.setText(nombre);
         infoDescripcion.setText(descripcion);
         infoDescripcion.setMovementMethod(new ScrollingMovementMethod());
-        infoImg.setImageResource(imagen);
+
     }
 
     private String sacarID(String url) {

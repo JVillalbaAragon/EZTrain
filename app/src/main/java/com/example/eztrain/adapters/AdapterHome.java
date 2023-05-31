@@ -66,7 +66,7 @@ public class AdapterHome extends RecyclerView.Adapter<AdapterHome.MainViewHolder
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNombre = itemView.findViewById(R.id.fieldNombreProgresion);
-            foto = itemView.findViewById(R.id.imgCompletado);
+            foto = itemView.findViewById(R.id.imgAvanzado);
             progreso =  itemView.findViewById(R.id.progressBar);
         }
     }

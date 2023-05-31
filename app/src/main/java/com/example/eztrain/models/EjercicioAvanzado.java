@@ -78,4 +78,7 @@ public class EjercicioAvanzado {
     public void setImagen(int imagen) {
         this.imagen = imagen;
     }
+
+    //METODO COMPLEMENTARIO:
+
 }

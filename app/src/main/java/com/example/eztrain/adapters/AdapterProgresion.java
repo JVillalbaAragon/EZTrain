@@ -1,5 +1,6 @@
 package com.example.eztrain.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,9 @@ public class AdapterProgresion extends RecyclerView.Adapter<AdapterProgresion.Ma
         Progresion progresion = progresionList.get(position);
         holder.txtNombre.setText(progresion.getNombre());
         //Comprobar si está completado o no
-
         if (progresion.isCompletado()){
-            holder.foto.setImageResource(R.drawable.ic_launcher_background);
-        }else holder.foto.setImageResource(R.drawable.ic_launcher_foreground);
+            holder.foto.setImageResource(R.drawable.ic_check_circle_outline);
+        }else holder.foto.setImageResource(progresion.getImgProgresion());
 
         // Agrega el OnClickListener al elemento de la lista
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -68,7 +68,7 @@ public class AdapterProgresion extends RecyclerView.Adapter<AdapterProgresion.Ma
         public MainViewHolder(@NonNull View itemView) {
             super(itemView);
             txtNombre = itemView.findViewById(R.id.fieldNombreProgresion);
-            foto = itemView.findViewById(R.id.imgCompletado);
+            foto = itemView.findViewById(R.id.imgProgre);
         }
     }
     //On click listener para realizar una pequeña animación.

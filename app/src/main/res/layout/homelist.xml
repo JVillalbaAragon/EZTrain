@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imgCompletado"
+                android:id="@+id/imgAvanzado"
                 android:layout_width="261dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -41,13 +41,16 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Pistol Squat"
+                    android:textColor="#BABABA"
                     android:textSize="24sp" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="260dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

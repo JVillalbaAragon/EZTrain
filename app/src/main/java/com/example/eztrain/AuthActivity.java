@@ -38,8 +38,9 @@ public class AuthActivity extends AppCompatActivity {
         dbHelper = new DBHelper(getApplicationContext());
         DataInitializer dataInitializer = new DataInitializer(getApplicationContext());
         dataInitializer.initializeData(); // Este método crea los ejercicios si no existen en la BD.
-
+        //Dar valor a el botón de Login
         loginButton = findViewById(R.id.ButtonAuth);
+        //Metodos relacionados a Firebase Auth, como la instancia de el SignIn
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -87,11 +88,11 @@ public class AuthActivity extends AppCompatActivity {
 
         }
     }
-
     @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //Si la instancia del usuario es distinto a null, dirige a Main Activity:
         if(user!= null){
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
